@@ -11,7 +11,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/Mr-DS-ML-85/ASC?color=ff4444)](https://github.com/Mr-DS-ML-85/ASC/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/Mr-DS-ML-85/ASC?color=ff8800)](https://github.com/Mr-DS-ML-85/ASC/pulls)
 
-[Paper](https://doi.org/10.5281/zenodo.22810393) | [Docs](docs/index.html) | [Installation](#installation) | [Quick Start](#quick-start) | [Models](#supported-models)
+[Paper](https://doi.org/10.5281/zenodo.22810393) | [Docs](https://mr-ds-ml-85.github.io/ASC/) | [Installation](#installation) | [Quick Start](#quick-start) | [Models](#supported-models)
 
 ## Overview
 
