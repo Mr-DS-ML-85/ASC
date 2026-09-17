@@ -1,0 +1,134 @@
+[
+  {
+    "test": "PAR creation",
+    "passed": true,
+    "detail": "params=6,361,120",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR forward",
+    "passed": true,
+    "detail": "shape=torch.Size([1, 8]) time=1.350ms",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR predict_blocks",
+    "passed": true,
+    "detail": "blocks=[3, 24, 17, 8, 31, 18, 11, 15]",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR deterministic",
+    "passed": true,
+    "detail": "",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR init falcon-h1-0.5b",
+    "passed": true,
+    "detail": "d_model=1024 params=6,361,120",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR init gemma-3-1b",
+    "passed": true,
+    "detail": "d_model=2048 params=8,458,272",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR init qwen2.5-0.5b",
+    "passed": true,
+    "detail": "d_model=896 params=6,098,976",
+    "mode": "manual"
+  },
+  {
+    "test": "PAR init ornith-1.0-9b",
+    "passed": true,
+    "detail": "d_model=4096 params=12,652,576",
+    "mode": "manual"
+  },
+  {
+    "test": "Prefetch queue creation",
+    "passed": true,
+    "detail": "",
+    "mode": "manual"
+  },
+  {
+    "test": "Prefetch reset_stats",
+    "passed": true,
+    "detail": "",
+    "mode": "manual"
+  },
+  {
+    "test": "Prefetch CUDA",
+    "passed": true,
+    "detail": "prefetched=4",
+    "mode": "manual"
+  },
+  {
+    "test": "DRAM sequential",
+    "passed": "True",
+    "detail": "547.5 GB/s",
+    "mode": "manual"
+  },
+  {
+    "test": "DRAM scattered",
+    "passed": "True",
+    "detail": "12.0 GB/s",
+    "mode": "manual"
+  },
+  {
+    "test": "DRAM penalty exists",
+    "passed": "True",
+    "detail": "penalty=-93% seq=67.5 scat=4.7",
+    "mode": "manual"
+  },
+  {
+    "test": "benchmark_falcon-h1-0.5b",
+    "passed": true,
+    "detail": "[{\"model\": \"Falcon-H1-0.5B\", \"n_ctx\": 512, \"fill_len\": 384, \"avg_ms\": 0.2294410500326194, \"median_ms\": 0.22121849951872719, \"p95_ms\": 0.2697015001103864, \"tokens_per_sec\": 4358.417989535138, \"kv_size_mb\": 13.369344}, {\"model\": \"Falcon-H1-0.5B\", \"n_ctx\": 1024, \"fill_len\": 768, \"avg_ms\": 0.24616145001346013, \"median_ms\": 0.2403535004305013, \"p95_ms\": 0.2863989994239092, \"tokens_per_sec\": 4062.374510490249, \"kv_size_mb\": 26.738688}, {\"model\": \"Falcon-H1-0.5B\", \"n_ctx\": 2048, \"fill_len\": 1536, \"avg_ms\": 0.3089065499807475, \"median_ms\": 0.30049299994061585, \"p95_ms\": 0.3832065502592741, \"tokens_per_sec\": 3237.2249797303575, \"kv_size_mb\": 53.477376}, {\"model\": \"Falcon-H1-0.5B\", \"n_ctx\": 4096, \"fill_len\": 3072, \"avg_ms\": 0.4204098999252892, \"median_ms\": 0.41857749965856783, \"p95_ms\": 0.44186195045767823, \"tokens_per_sec\": 2378.6309508356235, \"kv_size_mb\": 106.954752}, {\"model\": \"Falcon-H1-0.5B\", \"n_ctx\": 8192, \"fill_len\": 6144, \"avg_ms\": 0.6639887501023622, \"median_ms\": 0.6431710003198532, \"p95_ms\": 0.7601579508445867, \"tokens_per_sec\": 1506.049612807201, \"kv_size_mb\": 213.909504}]",
+    "mode": "benchmark"
+  },
+  {
+    "test": "par_overhead_falcon-h1-0.5b",
+    "passed": true,
+    "detail": "0.6902ms",
+    "mode": "benchmark"
+  },
+  {
+    "test": "benchmark_gemma-3-1b",
+    "passed": true,
+    "detail": "[{\"model\": \"Gemma-3-1B\", \"n_ctx\": 512, \"fill_len\": 384, \"avg_ms\": 1.3261909999528143, \"median_ms\": 1.3260010000522016, \"p95_ms\": 1.402812999640446, \"tokens_per_sec\": 754.0391995086529, \"kv_size_mb\": 163.577856}, {\"model\": \"Gemma-3-1B\", \"n_ctx\": 1024, \"fill_len\": 768, \"avg_ms\": 1.4490063000266673, \"median_ms\": 1.404266000008647, \"p95_ms\": 1.6319033996751389, \"tokens_per_sec\": 690.1281243439702, \"kv_size_mb\": 327.155712}, {\"model\": \"Gemma-3-1B\", \"n_ctx\": 2048, \"fill_len\": 1536, \"avg_ms\": 1.5856183999403584, \"median_ms\": 1.5625499995621794, \"p95_ms\": 1.8007994995059562, \"tokens_per_sec\": 630.668766228756, \"kv_size_mb\": 654.311424}, {\"model\": \"Gemma-3-1B\", \"n_ctx\": 4096, \"fill_len\": 3072, \"avg_ms\": 1.8950819499423233, \"median_ms\": 1.8730929996308987, \"p95_ms\": 2.1174298997266305, \"tokens_per_sec\": 527.6816657086703, \"kv_size_mb\": 1308.622848}, {\"model\": \"Gemma-3-1B\", \"n_ctx\": 8192, \"fill_len\": 6144, \"avg_ms\": 2.5507917500362964, \"median_ms\": 2.5446835002185253, \"p95_ms\": 2.680117899353718, \"tokens_per_sec\": 392.03513967213144, \"kv_size_mb\": 2617.245696}]",
+    "mode": "benchmark"
+  },
+  {
+    "test": "par_overhead_gemma-3-1b",
+    "passed": true,
+    "detail": "1.0119ms",
+    "mode": "benchmark"
+  },
+  {
+    "test": "benchmark_qwen2.5-0.5b",
+    "passed": true,
+    "detail": "[{\"model\": \"Qwen2.5-0.5B\", \"n_ctx\": 512, \"fill_len\": 384, \"avg_ms\": 0.607472149977184, \"median_ms\": 0.7938499998090265, \"p95_ms\": 0.8318519997374096, \"tokens_per_sec\": 1646.1660012521709, \"kv_size_mb\": 9.437184}, {\"model\": \"Qwen2.5-0.5B\", \"n_ctx\": 1024, \"fill_len\": 768, \"avg_ms\": 0.8464431001357298, \"median_ms\": 0.8313799999086768, \"p95_ms\": 0.9212504996412463, \"tokens_per_sec\": 1181.4143205132712, \"kv_size_mb\": 18.874368}, {\"model\": \"Qwen2.5-0.5B\", \"n_ctx\": 2048, \"fill_len\": 1536, \"avg_ms\": 0.9651148499870033, \"median_ms\": 0.9548090001771925, \"p95_ms\": 1.0189209497184493, \"tokens_per_sec\": 1036.146112572474, \"kv_size_mb\": 37.748736}, {\"model\": \"Qwen2.5-0.5B\", \"n_ctx\": 4096, \"fill_len\": 3072, \"avg_ms\": 1.3526444499802892, \"median_ms\": 1.299022000239347, \"p95_ms\": 1.5994314998806658, \"tokens_per_sec\": 739.2925761197423, \"kv_size_mb\": 75.497472}, {\"model\": \"Qwen2.5-0.5B\", \"n_ctx\": 8192, \"fill_len\": 6144, \"avg_ms\": 1.7120431499733968, \"median_ms\": 1.6993650001495553, \"p95_ms\": 1.772690999587212, \"tokens_per_sec\": 584.097427693653, \"kv_size_mb\": 150.994944}]",
+    "mode": "benchmark"
+  },
+  {
+    "test": "par_overhead_qwen2.5-0.5b",
+    "passed": true,
+    "detail": "0.6831ms",
+    "mode": "benchmark"
+  },
+  {
+    "test": "benchmark_ornith-1.0-9b",
+    "passed": true,
+    "detail": "[{\"model\": \"Ornith-1.0-9B\", \"n_ctx\": 512, \"fill_len\": 384, \"avg_ms\": 1.2672544000906782, \"median_ms\": 1.2427569999999832, \"p95_ms\": 1.5610055499109876, \"tokens_per_sec\": 789.1075382562847, \"kv_size_mb\": 25.165824}, {\"model\": \"Ornith-1.0-9B\", \"n_ctx\": 1024, \"fill_len\": 768, \"avg_ms\": 1.801293550124683, \"median_ms\": 1.7467884999859962, \"p95_ms\": 2.2671264503514976, \"tokens_per_sec\": 555.1565983960701, \"kv_size_mb\": 50.331648}, {\"model\": \"Ornith-1.0-9B\", \"n_ctx\": 2048, \"fill_len\": 1536, \"avg_ms\": 1.5315893000661163, \"median_ms\": 1.4778650001971982, \"p95_ms\": 1.862646000654422, \"tokens_per_sec\": 652.916548814249, \"kv_size_mb\": 100.663296}, {\"model\": \"Ornith-1.0-9B\", \"n_ctx\": 4096, \"fill_len\": 3072, \"avg_ms\": 1.68222479992437, \"median_ms\": 1.6489295003339066, \"p95_ms\": 1.8228378997264374, \"tokens_per_sec\": 594.450872466604, \"kv_size_mb\": 201.326592}, {\"model\": \"Ornith-1.0-9B\", \"n_ctx\": 8192, \"fill_len\": 6144, \"avg_ms\": 2.1854375998373143, \"median_ms\": 2.169395999317203, \"p95_ms\": 2.268199049649411, \"tokens_per_sec\": 457.5742634218615, \"kv_size_mb\": 402.653184}]",
+    "mode": "benchmark"
+  },
+  {
+    "test": "par_overhead_ornith-1.0-9b",
+    "passed": true,
+    "detail": "1.3126ms",
+    "mode": "benchmark"
+  }
+]

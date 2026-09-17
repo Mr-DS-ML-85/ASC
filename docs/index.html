@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Attention Stream Cache — Reduce DRAM bandwidth saturation in LLM attention layers through predictive KV cache prefetching.">
+    <meta name="author" content="Irfan Mahir">
+    <meta property="og:title" content="ASC — Attention Stream Cache">
+    <meta property="og:description" content="Reduce DRAM bandwidth saturation by up to 40% through predictive KV cache prefetching.">
+    <meta property="og:type" content="website">
+    <meta name="github:repo" content="https://github.com/Mr-DS-ML-85/ASC">
+    <meta property="article:doi" content="10.5281/zenodo.22810393">
+    <title>ASC — Attention Stream Cache</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a0a;color:#e0e0e0;line-height:1.6}
+        nav{position:fixed;top:0;width:100%;background:rgba(10,10,10,.95);border-bottom:1px solid #222;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+        nav .logo{font-size:1.4rem;font-weight:700;color:#00ff88;text-decoration:none}
+        nav .links a{color:#888;text-decoration:none;margin-left:2rem;font-size:.9rem;transition:color .2s}
+        nav .links a:hover{color:#00ff88}
+        .search-wrap{position:relative;max-width:360px}
+        .search-wrap input{width:100%;padding:.65rem 1rem .65rem 2.4rem;background:#111;border:1px solid #333;border-radius:8px;color:#fff;font-size:.9rem;outline:0}
+        .search-wrap input:focus{border-color:#00ff88}
+        .search-wrap::before{content:"\1F50D";position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.85rem}
+        #sr{position:absolute;top:100%;left:0;right:0;background:#111;border:1px solid #333;border-radius:8px;margin-top:4px;max-height:300px;overflow-y:auto;display:none}
+        #sr.on{display:block}
+        #sr a{display:block;padding:.6rem 1rem;color:#ccc;text-decoration:none;border-bottom:1px solid #1a1a1a;font-size:.9rem}
+        #sr a:hover{background:#1a1a1a;color:#00ff88}
+        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem}
+        .hero h1{font-size:3.5rem;font-weight:800;margin-bottom:1rem;background:linear-gradient(135deg,#00ff88,#0088ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero .sub{font-size:1.3rem;color:#888;max-width:600px;margin-bottom:2rem}
+        .hero .stats{display:flex;gap:3rem;margin-bottom:2.5rem}
+        .hero .stat .num{font-size:2.5rem;font-weight:800;color:#00ff88}
+        .hero .stat .lbl{font-size:.85rem;color:#666}
+        .hero .btns{display:flex;gap:1rem}
+        .btn{padding:.8rem 2rem;border-radius:8px;font-size:1rem;font-weight:600;text-decoration:none;transition:all .2s}
+        .btn-g{background:#00ff88;color:#000}.btn-g:hover{background:#00cc6a}
+        .btn-o{border:1px solid #444;color:#ccc}.btn-o:hover{border-color:#00ff88;color:#00ff88}
+        section{max-width:1000px;margin:0 auto;padding:4rem 2rem}
+        section h2{font-size:2rem;margin-bottom:1.5rem;color:#fff}
+        section p{color:#999;margin-bottom:1rem}
+        table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+        th,td{padding:.8rem 1rem;text-align:left;border-bottom:1px solid #222}
+        th{color:#00ff88;font-weight:600;font-size:.85rem;text-transform:uppercase}
+        td{color:#ccc}
+        tr:hover td{background:#111}
+        pre{background:#111;border:1px solid #222;border-radius:8px;padding:1.2rem;overflow-x:auto;margin:1rem 0;font-size:.9rem}
+        code{color:#00ff88;font-family:'SF Mono','Fira Code',monospace}
+        .ic{background:#1a1a1a;padding:.15rem .4rem;border-radius:4px;font-size:.88rem}
+        .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2rem 0}
+        .card{background:#111;border:1px solid #222;border-radius:12px;padding:1.5rem}
+        .card h3{color:#fff;margin-bottom:.5rem}
+        .card p{color:#888;font-size:.9rem}
+        footer{border-top:1px solid #222;padding:2rem;text-align:center;color:#555;font-size:.85rem}
+        @media(max-width:768px){.hero h1{font-size:2rem}.hero .stats{flex-direction:column;gap:1.5rem}.g3{grid-template-columns:1fr}nav .links{display:none}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" class="logo">ASC</a>
+    <div class="search-wrap">
+        <input type="text" id="q" placeholder="Search docs..." autocomplete="off">
+        <div id="sr"></div>
+    </div>
+    <div class="links">
+        <a href="#features">Features</a>
+        <a href="#results">Results</a>
+        <a href="#start">Quick Start</a>
+        <a href="#api">API</a>
+        <a href="https://github.com/Mr-DS-ML-85/ASC">GitHub</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <h1>Attention Stream Cache</h1>
+    <p class="sub">Reduce DRAM bandwidth saturation in LLM attention layers by up to 40% through predictive KV cache prefetching.</p>
+    <div style="margin-bottom:1.5rem">
+        <a href="https://doi.org/10.5281/zenodo.22810393" style="display:inline-block"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22810393.svg" alt="DOI" style="height:20px"></a>
+    </div>
+    <div class="stats">
+        <div class="stat"><div class="num">84%</div><div class="lbl">DRAM Penalty Confirmed</div></div>
+        <div class="stat"><div class="num">~29%</div><div class="lbl">Throughput Gain (KV in DRAM)</div></div>
+        <div class="stat"><div class="num">0.09ms</div><div class="lbl">PAR Inference Time</div></div>
+    </div>
+    <div class="btns">
+        <a href="#start" class="btn btn-g">Get Started</a>
+        <a href="https://doi.org/10.5281/zenodo.22810393" class="btn btn-o">Read Paper</a>
+    </div>
+</div>
+
+<section id="features">
+    <h2>Why ASC?</h2>
+    <p>Attention reads KV cache in a scattered, score-dependent pattern. DRAM prefetchers are designed for sequential access. The mismatch wastes up to 84% of memory bandwidth.</p>
+    <div class="g3">
+        <div class="card">
+            <h3>Problem: Scattered Reads</h3>
+            <p>Attention scores create a data-dependent access pattern. On RTX 4060, scattered reads achieve only 4-14 GB/s vs 56-92 GB/s sequential — a 5-35x penalty.</p>
+        </div>
+        <div class="card">
+            <h3>Solution: Predict + Prefetch</h3>
+            <p>PAR (3-layer MLP) predicts which KV blocks will receive high attention. Prefetch queue loads them into L2 cache via high-priority CUDA stream.</p>
+        </div>
+        <div class="card">
+            <h3>Result: Bandwidth Recovery</h3>
+            <p>When KV cache resides in DRAM (70B+ models), ASC converts scattered DRAM reads into sequential prefetch, recovering 35-40% bandwidth.</p>
+        </div>
+    </div>
+</section>
+
+<section id="results">
+    <h2>Benchmark Results</h2>
+    <p>Hardware: NVIDIA RTX 4060 (8GB GDDR6, 272 GB/s peak, 48 MB L2 cache)</p>
+
+    <h3 style="margin-top:2rem;margin-bottom:1rem;color:#fff">DRAM Bandwidth</h3>
+    <table>
+        <tr><th>Size</th><th>Sequential</th><th>Scattered</th><th>Penalty</th></tr>
+        <tr><td>64 MB</td><td>91.8 GB/s</td><td>14.5 GB/s</td><td style="color:#ff4444">-84%</td></tr>
+        <tr><td>128 MB</td><td>64.4 GB/s</td><td>11.7 GB/s</td><td style="color:#ff4444">-82%</td></tr>
+        <tr><td>256 MB</td><td>51.1 GB/s</td><td>9.9 GB/s</td><td style="color:#ff4444">-81%</td></tr>
+        <tr><td>512 MB</td><td>56.0 GB/s</td><td>9.7 GB/s</td><td style="color:#ff4444">-83%</td></tr>
+    </table>
+
+    <h3 style="margin-top:2rem;margin-bottom:1rem;color:#fff">Model Decode (Manual Tests)</h3>
+    <table>
+        <tr><th>Model</th><th>512 ctx</th><th>2048 ctx</th><th>8192 ctx</th><th>KV/8K</th></tr>
+        <tr><td>Falcon-H1-0.5B</td><td>4,358 tok/s</td><td>3,237 tok/s</td><td>1,506 tok/s</td><td>285 MB</td></tr>
+        <tr><td>Gemma-3-1B</td><td>754 tok/s</td><td>631 tok/s</td><td>392 tok/s</td><td>3,490 MB</td></tr>
+        <tr><td>Qwen2.5-0.5B</td><td>1,646 tok/s</td><td>1,036 tok/s</td><td>584 tok/s</td><td>201 MB</td></tr>
+        <tr><td>Ornith-1.0-9B</td><td>789 tok/s</td><td>653 tok/s</td><td>458 tok/s</td><td>537 MB</td></tr>
+    </table>
+
+    <h3 style="margin-top:2rem;margin-bottom:1rem;color:#fff">Corrected ASC Estimates</h3>
+    <table>
+        <tr><th>Scenario</th><th>KV Location</th><th>BW Reduction</th><th>Throughput Gain</th></tr>
+        <tr><td>9B, 8K ctx</td><td>VRAM (L2 hit)</td><td>&lt;5%</td><td>&lt;3%</td></tr>
+        <tr><td>9B, 64K ctx</td><td>VRAM</td><td>~15%</td><td>~10%</td></tr>
+        <tr><td>70B, 64K ctx</td><td>DRAM</td><td>~35%</td><td>~29%</td></tr>
+        <tr><td>70B, 128K ctx</td><td>DRAM</td><td>~40%</td><td>~29%</td></tr>
+    </table>
+</section>
+
+<section id="start">
+    <h2>Quick Start</h2>
+    <pre><code>pip install -e .
+python manual_tests.py          # 51/51 library tests
+python run_tests.py             # full benchmark suite</code></pre>
+
+    <h3 style="margin-top:2rem;margin-bottom:1rem;color:#fff">Python</h3>
+    <pre><code>from asc import PredictiveAttentionRouter, DRAMBenchmark
+import torch
+
+par = PredictiveAttentionRouter(d_model=1024, n_blocks=32, top_k=8)
+idx, logits = par.predict_blocks(torch.randn(1, 1024))
+print(f"Blocks: {idx[0].tolist()}")
+
+r = DRAMBenchmark.measure_bandwidth(128, "sequential")
+print(f"BW: {r['bandwidth_gbps']:.1f} GB/s")</code></pre>
+
+    <h3 style="margin-top:2rem;margin-bottom:1rem;color:#fff">C++</h3>
+    <pre><code>#include "par.hpp"
+asc::PredictiveAttentionRouter par(1024, 32, 8);
+std::vector&lt;float&gt; h(1024, 0.5f);
+auto r = par.predict(h.data());</code></pre>
+</section>
+
+<section id="api">
+    <h2>API Reference</h2>
+    <table>
+        <tr><th>Class</th><th>Method</th><th>Description</th></tr>
+        <tr><td><code class="ic">PredictiveAttentionRouter</code></td><td><code class="ic">__init__(d_model, n_blocks, top_k)</code><td>Create PAR MLP</td></tr>
+        <tr><td></td><td><code class="ic">forward(hidden_state)</code></td><td>Predict top-k KV blocks</td></tr>
+        <tr><td></td><td><code class="ic">predict_blocks(hidden_state)</code></td><td>No-grad inference</td></tr>
+        <tr><td></td><td><code class="ic">get_param_count()</code></td><td>Total parameters</td></tr>
+        <tr><td></td><td><code class="ic">from_model_config(d, seq, block, k)</code></td><td>Factory from config</td></tr>
+        <tr><td><code class="ic">StreamingPrefetchQueue</code></td><td><code class="ic">prefetch_blocks(kv, idx, block_size)</code></td><td>Async prefetch to L2</td></tr>
+        <tr><td></td><td><code class="ic">synchronize()</code></td><td>Wait for prefetch</td></tr>
+        <tr><td></td><td><code class="ic">get_stats()</code></td><td>Prefetch statistics</td></tr>
+        <tr><td><code class="ic">DRAMBenchmark</code></td><td><code class="ic">measure_bandwidth(mb, mode)</code></td><td>Measure DRAM BW</td></tr>
+        <tr><td><code class="ic">ModelBenchmark</code></td><td><code class="ic">measure_decode(n_ctx)</code></td><td>Decode timing</td></tr>
+        <tr><td></td><td><code class="ic">run_sweep(ctx_sizes)</code></td><td>Multi-context benchmark</td></tr>
+    </table>
+</section>
+
+<footer>
+    ASC — Attention Stream Cache &copy; 2026 Irfan Mahir &middot; <a href="https://doi.org/10.5281/zenodo.22810393" style="color:#00ff88">Paper (DOI)</a> &middot; <a href="https://github.com/Mr-DS-ML-85/ASC" style="color:#00ff88">GitHub</a>
+</footer>
+
+<script>
+const DATA=[
+{t:"Predictive Attention Router",s:"PAR MLP predicts top-k KV blocks",a:"#api"},
+{t:"Streaming Prefetch Queue",s:"CUDA async prefetch to L2 cache",a:"#api"},
+{t:"DRAM Bandwidth",s:"Scattered reads 80-84% slower than sequential",a:"#results"},
+{t:"Predict",s:"PAR predicts which KV blocks to prefetch",a:"#start"},
+{t:"Prefetch",s:"cudaMemcpAsync on high-priority stream",a:"#api"},
+{t:"Falcon-H1-0.5B",s:"Hybrid SSM+Attention, 34 attn layers",a:"#results"},
+{t:"Gemma-3-1B",s:"Pure attention, 26 layers",a:"#results"},
+{t:"Qwen2.5-0.5B",s:"Pure attention, 24 layers",a:"#results"},
+{t:"Ornith-1.0-9B",s:"Hybrid SSM+Attention, 8 attn layers",a:"#results"},
+{t:"RTX 4060",s:"8GB GDDR6, 272 GB/s peak, 48MB L2",a:"#results"},
+{t:"Bandwidth",s:"DRAM bandwidth saturation causes 5x slowdown",a:"#features"},
+{t:"KV Cache",s:"Grows with context, spills to DRAM at large ctx",a:"#results"},
+{t:"L2 Cache",s:"48MB on RTX 4060, absorbs KV at small context",a:"#results"},
+{t:"Installation",s:"pip install -e .",a:"#start"},
+{t:"Python API",s:"from asc import PredictiveAttentionRouter",a:"#start"},
+{t:"C++ API",s:"asc::PredictiveAttentionRouter par(1024, 32, 8)",a:"#start"},
+{t:"Tests",s:"51/51 manual tests, 22/22 benchmark tests",a:"#start"},
+{t:"Paper",s:"DOI: 10.5281/zenodo.22810393, Irfan Mahir, September 2026",a:"https://doi.org/10.5281/zenodo.22810393"},
+];
+const q=document.getElementById("q"),sr=document.getElementById("sr");
+q.addEventListener("input",function(){
+    const v=this.value.toLowerCase();
+    if(!v){sr.className="";sr.innerHTML="";return}
+    const m=DATA.filter(d=>d.t.toLowerCase().includes(v)||d.s.toLowerCase().includes(v));
+    sr.innerHTML=m.map(d=>`<a href="${d.a}"><b>${d.t}</b> — ${d.s}</a>`).join("");
+    sr.className=m.length?"on":"";
+});
+document.addEventListener("click",e=>{if(e.target!==q)sr.className=""});
+</script>
+
+</body>
+</html>

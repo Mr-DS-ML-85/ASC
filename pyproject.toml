@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asc-pytorch"
+version = "0.1.0"
+description = "Attention Stream Cache: Reducing DRAM Bandwidth Saturation in LLM Attention Layers"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Irfan Mahir", email = "irfan@furylogic.com"}
+]
+keywords = ["llm", "attention", "dram", "bandwidth", "prefetch", "inference"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.0",
+    "numpy>=1.24",
+    "llama-cpp-python>=0.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+cpp = [
+    "pybind11>=2.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/irfanmahir/asc"
+Repository = "https://github.com/irfanmahir/asc"
+Documentation = "https://irfanmahir.github.io/asc"
+
+[tool.setuptools.packages.find]
+include = ["asc*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
