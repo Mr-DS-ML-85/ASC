@@ -2,7 +2,7 @@
 
 **Reducing DRAM Bandwidth Saturation in LLM Attention Layers**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22810393.svg)](https://doi.org/10.5281/zenodo.22810393)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22854905.svg)](https://doi.org/10.5281/zenodo.22854905)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00ff88.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776ab.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![CUDA 11+](https://img.shields.io/badge/CUDA-11+-76b900.svg?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
